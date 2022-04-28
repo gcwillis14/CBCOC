@@ -67,7 +67,18 @@ server <- function(input, output) {
         names(Weekly_total3)[names(Weekly_total3) == 'matrix.3..ncol...1..nrow...13.'] <- 'Week'
     }
     
-    Total <- rbind(Weekly_total1, Weekly_total2, Weekly_total3)
+    # Week 4
+    Weekly_total4 <- data.frame(matrix(4, ncol=1, nrow=13)) #create empty table
+    for (i in people){
+        content <- read_html(paste0("https://cricketxi.com/county-championship-2022/league/2859/team/", i , "/4/"))
+        tables <- content %>% html_table(fill = TRUE)
+        table <- tables[[1]]
+        table <- table[c(1,4,5,6,7,9,10,12,14,15,16,17,2),]
+        Weekly_total4 <- cbind(Weekly_total4, table)
+        names(Weekly_total4)[names(Weekly_total4) == 'matrix.4..ncol...1..nrow...13.'] <- 'Week'
+    }
+    
+    Total <- rbind(Weekly_total1, Weekly_total2, Weekly_total3,Weekly_total4)
     data <- Total
     
     # Filter data based on selections
