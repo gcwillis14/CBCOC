@@ -51,7 +51,17 @@ for (i in people){
     names(Weekly_total4)[names(Weekly_total4) == 'matrix.4..ncol...1..nrow...13.'] <- 'Week'
 }
 
-Total <- rbind(Weekly_total1, Weekly_total2, Weekly_total3, Weekly_total4)
+# Week 5
+Weekly_total5 <- data.frame(matrix(5, ncol=1, nrow=13)) #create empty table
+for (i in people){
+    content <- read_html(paste0("https://cricketxi.com/county-championship-2022/league/2859/team/", i , "/5/"))
+    tables <- content %>% html_table(fill = TRUE)
+    table <- tables[[1]]
+    table <- table[c(1,4,5,6,7,9,10,12,14,15,16,17,2),]
+    Weekly_total5 <- cbind(Weekly_total5, table)
+    names(Weekly_total5)[names(Weekly_total5) == 'matrix.5..ncol...1..nrow...13.'] <- 'Week'
+}
+Total <- rbind(Weekly_total1, Weekly_total2, Weekly_total3, Weekly_total4, Weekly_total5)
 data <- Total
 # Define UI for application that draws a histogram
 ui <- fluidPage(
